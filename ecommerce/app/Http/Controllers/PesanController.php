@@ -12,16 +12,19 @@ use Alert;
 
 class PesanController extends Controller
 {
+    
     public function __construct()
     {
         $this->middleware('auth');
     }
+
     public function index($id)
     {
         $barang = Barang::where('id', $id)->first();
 
         return view('pesan.index', compact('barang'));
     }
+
     public function pesan(Request $request, $id)
     {
         $barang = Barang::where('id', $id)->first();
@@ -80,16 +83,21 @@ class PesanController extends Controller
         alert()->success('Berhasil dimasukan ke Keranjang', 'Sukses');
         return redirect('home');
     }
+
     public function check_out()
     {
         $pesanan = Pesanan::where('user_id', Auth::user()->id)->where('status',0)->first();
         if(!empty($pesanan))
         {
             $pesanan_details = PesananDetail::where('pesanan_id', $pesanan->id)->get();
+            return view('pesan.check_out', compact('pesanan', 'pesanan_details'));
         }
 
-        return view('pesan.check_out', compact('pesanan', 'pesanan_details'));
+        else{
+            return view('pesan.check_out');
+        } 
     }
+
     public function delete($id)
     {
         $pesanan_detail = PesananDetail::where('id', $id)->first();
@@ -103,6 +111,7 @@ class PesanController extends Controller
         alert()->success('Pesanan Berhasil dihapus', 'Hapus');
         return redirect('check-out');
     }
+
     public function konfirmasi()
     {
         $user = User::where('id', Auth::user()->id)->first();

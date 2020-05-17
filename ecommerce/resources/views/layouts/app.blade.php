@@ -16,7 +16,7 @@
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
@@ -31,21 +31,21 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
-              <ul class="navbar-nav">
-                <li class="nav-item active">
-                  <a class="nav-link" href="/#awal">Home</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/#about">About</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="/#preventif">Preventif</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{{url('/home')}}">Our Shop</a>
-                </li>
-              </ul>
-            </div>
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                        <a class="nav-link" href="/#awal">Home</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="/#about">About</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="/#preventif">Preventif</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link" href="{{url('/home')}}">Our Shop</a>
+                        </li>
+                    </ul>
+                </div>
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
@@ -56,7 +56,6 @@
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
-                        
                         @guest
                             <li class="nav-item">
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -67,6 +66,9 @@
                                 </li>
                             @endif
                         @else
+                        <?php 
+                            if(Auth::user()->type == 'default'){
+                        ?>
                         <li class="nav-item">
                             <?php
                                 $pesanan_utama = \App\Pesanan::where('user_id', Auth::user()->id)->where('status',0)->first();
@@ -76,11 +78,22 @@
                                 }
                             ?>
                             <a class="nav-link" href="{{ url('check-out') }}">
-                            <i class="fa fa-shopping-cart"></i>
+                                checkout
                             @if(!empty($notif))
-                            <span class="badge badge-danger">{{$notif}}</span></a>
+                                <span class="badge badge-danger">{{$notif}}</span>
                             @endif
+                            </a>
                         </li>
+                        <?php 
+                             } 
+                             else if(Auth::user()->type == 'admin'){
+                        ?>
+
+                            <li class="nav-item">
+                                <a href="/barang" class="nav-link">Create Items</a>
+                            </li>
+
+                        <?php } ?>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -131,6 +144,9 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/gh/cferdinandi/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
     <script>
       var scroll = new SmoothScroll('a[href*="#"]');
     </script>
